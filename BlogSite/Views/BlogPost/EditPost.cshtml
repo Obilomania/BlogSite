@@ -1,0 +1,83 @@
+﻿@using BlogSite.Models.ViewModel;
+@model EditPostVM
+
+@{
+    ViewData["Title"] = "EditPost";
+}
+
+<form method="post" asp-action="EditPost" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edit Post</h2>
+            <hr />
+        </div>
+        <div class="createForm">
+            <div class="form">
+
+                <div class="mb-3">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Content"></label>
+                    <textarea asp-for="Content" class="form-control" style="resize:none;" rows="3"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+                 <div class="mb-3">
+                    <label asp-for="ImageUrl"></label>
+                    <input asp-for="ImageUrl" type="file" name="ImageUrl" id="file-1" class="form-control" required/>
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="preview">
+                <div class="imageform mb-3">
+                    <div class="grid">
+                        <div class="form-element">
+                            <label asp-for="ImageUrl" class="control-label" id="file-1-preview">
+                                <img src="@Model.URL" alt="">
+                                <div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+        <a asp-controller="BlogPost" asp-action="Index" class="btn btn-secondary" style="width:150px">Back To List</a>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+        <script>
+            function previewBeforeUpload(id) {
+                document.querySelector("#" + id).addEventListener("change", function(e) {
+                    if (e.target.files.length == 0) {
+                        return;
+                    }
+                    let file = e.target.files[0];
+                    let url = URL.createObjectURL(file);
+                    document.querySelector("#" + id + "-preview div").innerText = file.name;
+                    document.querySelector("#" + id + "-preview img").src = url;
+                });
+            }
+            previewBeforeUpload("file-1");
+        </script>
+}

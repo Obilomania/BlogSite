@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BlogPost>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="text-center">
+        <h2 class="text-primary">Posts</h2>
+    </div>
+    <div class="col-12 text-end">
+        <a asp-action="CreatePost" class="btn btn-success"> <i class="bi bi-plus-circle"></i> Create Post</a>
+    </div>
+</div>
+<br />
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Reverse())
+        {
+            <tr style="width:100%;">
+                <td class="text-center" style="width:25%; overflow:hidden">
+                @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td class="text-center" style="width:25%; overflow:hidden">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td class="text-center" style="width:25%; overflow:hidden">
+                    <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="width:80px; height:80px; overflow:hidden;" />
+                </td>
+                <td class="text-center" style="width:25%; overflow:hidden">
+                    <a class="btn btn-secondary" asp-controller="BlogPost" asp-action="EditPost" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a> 
+                    <a class="btn btn-info" asp-controller="BlogPost" asp-action="PostDetail" asp-route-id="@item.Id"><i class="bi bi-info-circle"></i></a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-x-circle"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
