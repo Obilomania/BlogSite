@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlogSite.Models.ViewModel
+namespace BlogSite.Models.ViewModel.BlogPost
 {
-    public class CreatePostVM
+    public class CreateBlogPostVM
     {
         public int Id { get; set; }
         [Display(Name = "Image")]
-        public IFormFile ImageUrl { get; set; }
+        public IFormFile? ImageUrl { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
 

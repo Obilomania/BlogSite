@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+
 }
 
 @media (min-width: 768px) {
@@ -18,7 +19,9 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgba(128, 128, 128, 0.3);
 }
 .createForm{
     display:flex;
@@ -37,22 +40,49 @@ body {
     height:15rem;
     width:100%;
 }
-.detail{
+.details{
+    width:50%;
+    border:1px solid red;
+    height:fit-content;
+    
+}
+.details .content{
+    width:10rem;
+}
+
+.details img {
+    width: 30rem;
+    height:30rem;
+}
+    .details .writeUp {
+        width: 60%;
+        text-align: justify;
+    }
+.postComment{
+    width:100%;
+    height:120vh;
+    display:flex;
+    position:relative;
+
+}
+.postComment .details {
+    width: 50%;
+    text-align: justify;
+    height:10rem;
+}
+.postComment .smallContents {
     width:100%;
     display:flex;
-    gap:2rem;
-    /*justify-content:space-between;*/
+    justify-content:space-between;
+    font-size:.8rem;
+    color: blue;
+    font-family: "Merriweather Sans";
 }
-.detail .image {
-    height: 30rem;
-    width: 40%;
-    border:1px solid black;
-    overflow:hidden;
+.commentSide{
+    width:50%;
 }
-.detail img {
-    width: 100%;
-    height:100%;
-}
-.details .writeUp{
-    width:60%;
+.noComment {
+    position: absolute;
+    top: 30%;
+    right: 10%;
 }

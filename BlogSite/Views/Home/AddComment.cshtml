@@ -1,0 +1,27 @@
+﻿@using BlogSite.Models.ViewModel;
+@model PostsCommentsVM
+<br /><br /><br />
+
+
+<form method="post" asp-action="AddComment" class="container">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create Post</h2>
+            <hr />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CommenterEmail"></label>
+            <input asp-for="CommenterEmail" class="form-control" type="email"/>
+            <span asp-validation-for="CommenterEmail" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Comment"></label>
+            <textarea asp-for="Comment" class="form-control" style="resize:none;" rows="10"></textarea>
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Add Comment</button>
+        @*<a asp-controller="BlogPost" asp-action="Index" class="btn btn-secondary" style="width:150px">Back To List</a>*@
+    </div>
+</form>

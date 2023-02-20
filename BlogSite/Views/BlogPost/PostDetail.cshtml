@@ -1,10 +1,11 @@
 ﻿@model BlogPost
 @{
-    ViewData["Title"] = "PostDetail";
+ViewData["Title"] = "PostDetail";
 }
+<br /><br /><br /><br />
 <h1 class="text-center">Post Detail</h1>
-<hr />
-<div class="detail">
+<hr  class="container"/>
+<div class="detail container">
     <div class="image">
         <img src="@Model.ImageUrl" alt="" />
     </div>
@@ -15,7 +16,7 @@
     </div>
 </div>
 <br /><br />
-<div class="actionBtn" style="display:flex; justify-content:space-between">
+<div class="actionBtn container" style="display:flex; justify-content:space-between">
     <a class="btn btn-secondary" asp-controller="BlogPost" asp-action="Index"><i class="bi bi-arrow-left">Back To List</i> </a> 
     <a class="btn btn-secondary" asp-controller="BlogPost" asp-action="EditPost" asp-route-id="@Model.Id"><i class="bi bi-pencil-square">Edit Post</i></a> 
 </div>

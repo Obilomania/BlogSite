@@ -27,12 +27,24 @@ namespace BlogSite.Repository
 
         public async Task<IEnumerable<BlogPost>> GetAll()
         {
-           return await _context.BlogPosts.ToListAsync();
+            return await _context.BlogPosts
+                 .Include(p => p.Comments).ToListAsync();
         }
 
         public async Task<BlogPost> GetById(int id)
         {
-            return await _context.BlogPosts.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
+            return await _context.BlogPosts.Where(b => b.Id == id)
+                .Include(p => p.Comments)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == id);
+        }
+
+        public async Task<BlogPost> GetByIdTracking(int id)
+        {
+            return await _context.BlogPosts
+                .Where(b => b.Id == id)
+                .Include(p => p.Comments)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public bool Save()

@@ -1,0 +1,33 @@
+﻿@*@using BlogSite.Models.ViewModel.Comment;
+@model PostAndCommentVM
+
+@{
+    ViewData["Title"] = "Post Section";
+}
+<br /><br /><br />
+<div class="container p-4 postComment" style="border-radius:.8rem;">
+    <div class="details">
+        <h1>@Model.Post.Title</h1>
+        <img src="@Model.Post.ImageUrl" alt="" />
+        <p class="content">@Model.Post.Content</p>
+        <div class="smallContents">
+            <p><span>Posted On</span> : @Model.Post.Date.ToString("dd-MM-yyyy")</p>
+            <p><b>@Model.Comments.Count()</b> comment</p>
+        </div>
+        <div class="CTA">
+            <a class="btn btn-secondary" asp-controller="Home" asp-action="Index" ><i class="bi bi-arrow-left"> Back Home </i></a> 
+        </div>
+    </div>
+    <div class="commentSide">
+        @if (@Model.Comments.Count() == 0)
+        {
+           <div class="noComment">
+                <p>There is no comment!!!</p>
+                <a class="btn btn-success" asp-controller="Post" asp-action="Create" asp-route-id="@Model.Id"><i class="bi bi-plus-circle"></i> Add Comment </a> 
+           </div>
+        }
+    </div>
+</div>
+
+
+*@

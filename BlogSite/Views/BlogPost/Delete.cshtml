@@ -3,34 +3,30 @@
 @{
     ViewData["Title"] = "Delete";
 }
+<br /><br /><br /><br />
 
-<form method="post" asp-action="Delete" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
-    <div class="border p-3 mt-4">
+    <div class="container border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Edit Post</h2>
+            <h2 class="text-dnager">Delete Post</h2>
             <hr />
+
+            <dl class="row">
+            <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Content)
+            </dt>
+            <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Content)
+            </dd>
+        </dl>
+
         </div>
         <div class="createForm">
-            <div class="form">
-
-                <div class="mb-3">
-                    <label asp-for="Title"></label>
-                    <input asp-for="Title" class="form-control" readonly/>
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="Content"></label>
-                    <textarea asp-for="Content" class="form-control" style="resize:none;" rows="3" readonly></textarea>
-                    <span asp-validation-for="Content" class="text-danger"></span>
-                </div>
-                 <div class="mb-3">
-                    <label asp-for="ImageUrl"></label>
-                    <input asp-for="ImageUrl" type="file" name="ImageUrl" id="file-1" class="form-control" readonly/>
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                </div>
-            </div>
             <div class="preview">
                 <div class="imageform mb-3">
                     <div class="grid">
@@ -49,34 +45,17 @@
                 <br />
             </div>
         </div>
-        <button type="submit" value="Delete" class="btn btn-danger" style="width:150px">Delete</button>
-        <a asp-controller="BlogPost" asp-action="Index" class="btn btn-secondary" style="width:150px">Back To List</a>
+        <br /><br />
+        <div class="container">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+               <input type="submit" value="Delete" class="btn btn-danger" /> 
+                <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            </form>
+        </div>
     </div>
-</form>
 
 
 
 
 
-
-
-
-@section Scripts{
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-        <script>
-            function previewBeforeUpload(id) {
-                document.querySelector("#" + id).addEventListener("change", function(e) {
-                    if (e.target.files.length == 0) {
-                        return;
-                    }
-                    let file = e.target.files[0];
-                    let url = URL.createObjectURL(file);
-                    document.querySelector("#" + id + "-preview div").innerText = file.name;
-                    document.querySelector("#" + id + "-preview img").src = url;
-                });
-            }
-            previewBeforeUpload("file-1");
-        </script>
-}

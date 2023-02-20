@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlogSite.Models
 {
@@ -6,13 +7,16 @@ namespace BlogSite.Models
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name = "Image")]
-        public string? ImageUrl { get; set; }
+        [ValidateNever]
+        public string ImageUrl { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
 
-        [Display(Name = "Posted On")]
-        [DataType(DataType.Date)]
+
         public DateTime Date { get; set; } = DateTime.Now;
+
+        public ApplicationUser? User { get; set; }
+
+        public ICollection<Comments>? Comments { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlogSite.Models.ViewModel
+namespace BlogSite.Models.ViewModel.BlogPost
 {
-    public class EditPostVM
+    public class EditBlogPostVM
     {
         public int Id { get; set; }
         [Display(Name = "Image")]

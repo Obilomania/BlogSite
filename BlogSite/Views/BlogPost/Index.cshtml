@@ -3,18 +3,19 @@
 @{
     ViewData["Title"] = "Index";
 }
+<br /><br /><br /><br />
 
-<div class="row">
+<div class="row ">
     <div class="text-center">
         <h2 class="text-primary">Posts</h2>
     </div>
-    <div class="col-12 text-end">
-        <a asp-action="CreatePost" class="btn btn-success"> <i class="bi bi-plus-circle"></i> Create Post</a>
+    <div class="col-10 text-end">
+        <a asp-action="Create" class="btn btn-success"> <i class="bi bi-plus-circle"></i> Create Post</a>
     </div>
 </div>
 <br />
 
-<table class="table table-bordered table-striped" style="width:100%">
+<table class="container table table-bordered table-striped" style="width:100%">
     <thead>
         <tr>
             <th class="text-center">

@@ -1,6 +1,6 @@
 ﻿using BlogSite.Data;
 using BlogSite.Models;
-using BlogSite.Models.ViewModel;
+using BlogSite.Models.ViewModel.BlogPost;
 using BlogSite.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +10,18 @@ namespace BlogSite.Controllers
     {
         private readonly IBlogPostRepository _context;
         private readonly IPhotoService _photoService;
+        private readonly IPostRepository _postRepository;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public BlogPostController(IBlogPostRepository context, IPhotoService photoService)
+        public BlogPostController(IBlogPostRepository context,
+            IPhotoService photoService,
+            IPostRepository postRepository,
+            IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _photoService = photoService;
+            _postRepository = postRepository;
+            _hostEnvironment = hostEnvironment;
         }
 
         //CONTROLLER TO GET ALL POST FROM DB
@@ -40,33 +47,46 @@ namespace BlogSite.Controllers
         }
 
         //CONTROLLER TO CREATE POST
-        public IActionResult CreatePost()
+        public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(CreatePostVM createPostVM)
+        public async Task<IActionResult> Create( BlogPost posts, IFormFile file)
         {
             if (ModelState.IsValid)
             {
-                var result = await _photoService.AddPhotoAsync(createPostVM.ImageUrl);
-                var post = new BlogPost()
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if (file != null)
                 {
-                    Id = createPostVM.Id,
-                    Title = createPostVM.Title,
-                    Content = createPostVM.Content,
-                    ImageUrl = result.Url.ToString(),
-                    Date = createPostVM.Date
-                };
-                _context.Add(post);
-                return RedirectToAction("Index");
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\blogImages");
+                    var extension = Path.GetExtension(file.FileName);
+
+                    if (posts.ImageUrl != null)
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, posts.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    posts.ImageUrl = @"\images\blogImages\" + fileName + extension;
+                }
+                if (posts.Id == 0)
+                {
+                    _context.Add(posts);
+                }
+                _context.Save();
+                return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                ModelState.AddModelError("", "Photo Upload Failed");
-            }
-            return View(createPostVM);
+            return View(posts);
 
         }
 
@@ -82,7 +102,7 @@ namespace BlogSite.Controllers
             {
                 return NotFound();
             }
-            var postVM = new EditPostVM()
+            var postVM = new EditBlogPostVM()
             {
                 Id = id,
                 Title = post.Title,
@@ -94,38 +114,31 @@ namespace BlogSite.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> EditPost(int id, EditPostVM editPostVM)
+        public async Task<IActionResult> EditPost(int id, BlogPost post, IFormFile file)
         {
-            if (!ModelState.IsValid)
+            if (id != post.Id)
             {
-                ModelState.AddModelError("", "Failed to edit club");
-                return View("Edit", editPostVM);
+                return NotFound();
             }
-            var post = await _context.GetById(id);
-            if (post != null)
+            if (ModelState.IsValid)
             {
-                try
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if (file != null)
                 {
-                    await _photoService.DeletePhotoAsync(post.ImageUrl);
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\blogImages");
+                    var extension = Path.GetExtension(file.FileName);
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    post.ImageUrl = @"\images\blogImages\" + fileName + extension;
                 }
-                catch
-                {
-
-                    ModelState.AddModelError("", "Could not delete photo");
-                    return View(editPostVM);
-                }
-                var photoResult = await _photoService.AddPhotoAsync(editPostVM.ImageUrl);
-                var postEdit = new BlogPost
-                {
-                    Id = id,
-                    Title = editPostVM.Title,
-                    Content = editPostVM.Content,
-                    ImageUrl = photoResult.Url.ToString()
-                };
-                _context.Update(postEdit);
-                return RedirectToAction("Index");
+                _context.Update(post);
+                _context.Save();
+                return RedirectToAction(nameof(Index));
             }
-            return View(editPostVM);
+            return View(post);
         }
 
 
@@ -146,9 +159,14 @@ namespace BlogSite.Controllers
         public async Task<IActionResult> DeletePOST(int id)
         {
             var post = await _context.GetById(id);
+            if (post == null) { NotFound(); }
+            var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, post.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
             _context.Delete(post);
             return RedirectToAction("Index");
-
         }
     }
 }

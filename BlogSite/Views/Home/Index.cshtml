@@ -1,8 +1,68 @@
-﻿@{
+﻿@model IEnumerable<BlogPost>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="homeLanding ">
+            <div class="landingPage">
+            <div class="landingImage">
+            <h1>Welcome To <br /> <span>BLOG-XITE</span></h1>
+                <div class="overlay"></div>
+                <img src="https://media.istockphoto.com/id/483731108/photo/technology-and-coffee-on-a-wooden-table.jpg?b=1&s=170667a&w=0&k=20&c=_CO1HjY597xwNn7SASXmYE92TMKHcSGC-A-ORKY0uOE=" alt="" />
+            </div>
+        </div>
+        <h1 class="text-center fw-bold m-5">Blog Posts</h1>
+        <hr  class="container"/>
+        <br />
+        <div class="blog container">
+                @foreach (var item in Model.Reverse().Take(10))
+                {
+                    <a asp-controller="Home" asp-action="GetPostAndComment" asp-route-id="@item.Id" class="homeLink container">
+                        <div class="blogPosts container">
+                                <div class="homeImage">
+                            @*<img src="https://media.istockphoto.com/id/483731108/photo/technology-and-coffee-on-a-wooden-table.jpg?b=1&s=170667a&w=0&k=20&c=_CO1HjY597xwNn7SASXmYE92TMKHcSGC-A-ORKY0uOE=" alt="" />*@
+                                <img src="@item.ImageUrl" alt="" />
+                            </div>
+                            <div class="homeWriteUp">
+                                <br />
+                                    <h4><b>@item.Title</b></h4>
+                                    <p id="blogDesc">@item.Content.Substring(0, Math.Min(item.Content.Length, 400)) <span class="readMore">Read More....</span>
+                                </p>
+                                <div class="comments">
+                                    <p>Posted On : @item.Date.ToString("dd-MM-yyyy")</p>
+                                    <p class=""><b>@item.Comments.Count()</b> comments</p>
+                                </div>
+                            </div>
+
+
+                            <div class="homeArrow">
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                }
+
+        </div>
+        <br /><br />
 </div>
+
+
+
+
+
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+         const shortenText = (text, n) => {
+            if (text.length > n) {
+              const shortenedText = text.substring(0, n).concat("...");
+              return shortenedText;
+            }
+        return text;
+      };
+    </script>
+}
