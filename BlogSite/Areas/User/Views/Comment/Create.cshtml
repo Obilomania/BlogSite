@@ -1,0 +1,61 @@
+﻿@using BlogSite.Models.ViewModel.Comment;
+
+@model CreateCommentVM
+<br /><br /><br />
+<div class="container p-4 border addComment">
+    <div class="postDetails">
+        <h4 style="font-weight:bold;" class="text-center">@Model.BlogPostTitle</h4> <hr />
+        <div class="image">
+            <img src="@Model.BlogPostImage" alt="" style="width:20rem;"/>
+        </div>
+        <div class="content">
+            <p>@Model.BlogPostDesc</p>
+        </div>
+        <div class="smallContents">
+            <p><b>Posted on</b> : @Model.BlogPostCreated</p>
+            @if (Model.BlogPostComments.Count() == 0)
+            {
+                <p><b>No Comment</b></p>
+            }else
+            {
+                <p><b>@Model.BlogPostComments.Count()</b>
+                Comments</p>
+            }
+        </div>
+        <hr />
+        <form asp-action="Create" method="post">
+            <input asp-for="BlogPostId" type="hidden"/>
+            <div class="form-group">
+                <input asp-for="CommenterEmail" class="form-control" placeholder="Email Address"/>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="textArea">
+                    <textarea asp-for="Comment" style="resize:none;" rows="3" class="form-control" placeholder="Comment Here"></textarea>
+                    <button type="submit" id="submitPostBtn" class="btn btn-success">Add Comment</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="commentSection">
+        <div class="noComment">
+            @if (Model.BlogPostComments.Count() == 0)
+            {
+                <p><b>No Comment</b></p>
+            }
+        </div>
+        <div class="allComments">
+            <div class="inside">
+                <h5 class="text-center fw-bold">Comments</h5>
+                <hr />
+                @foreach (var comment in Model.BlogPostComments.Reverse())
+                {
+                    <div class="theComment">
+                        <p>@comment.Comment</p>
+                            <p class="time"><b><i>commented on</i> </b>: @comment.Date</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
