@@ -17,6 +17,6 @@ namespace BlogSite.Models
 
         public ApplicationUser? User { get; set; }
 
-        public ICollection<Comments> Comments { get; set; }
+        public ICollection<Comments>? Comments { get; set; }
     }
 }

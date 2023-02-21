@@ -120,7 +120,7 @@ namespace BlogSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BlogPosts");
+                    b.ToTable("BlogPosts", (string)null);
                 });
 
             modelBuilder.Entity("BlogSite.Models.Comments", b =>
@@ -149,7 +149,7 @@ namespace BlogSite.Migrations
 
                     b.HasIndex("BlogPostId");
 
-                    b.ToTable("PostComments");
+                    b.ToTable("PostComments", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

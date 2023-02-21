@@ -10,31 +10,18 @@ namespace BlogSite.Areas.User.Controllers
     public class CommentController : Controller
     {
         private readonly IPostRepository _postRepository;
-        private readonly IBlogPostRepository _blogRepository;
+        private readonly IBlogPostRepository _blog;
         private readonly ApplicationDbContext _context;
-        public CommentController(IPostRepository postRepository, IBlogPostRepository blogRepository, ApplicationDbContext context)
+        public CommentController(IPostRepository postRepository, IBlogPostRepository blog, ApplicationDbContext context)
         {
             _postRepository = postRepository;
-            _blogRepository = blogRepository;
+            _blog = blog;
             _context = context;
         }
 
-        //public IActionResult Index(int id)
-        //{
-        //    var comment = _postRepository.GetById(id);
-        //    var model = new CommentIndexVM
-        //    {
-        //        Id = comment.Id,
-        //        Comment = comment.Result.Comment,
-        //        CommenterEmail = comment.Result.CommenterEmail, 
-        //        Date = comment.Result.Date,
-        //    };
-        //    return View(model);
-        //}
-
         public IActionResult Create(int id)
         {
-            var blogPost = _blogRepository.GetByIdTracking(id);
+            var blogPost = _blog.GetByIdTracking(id);
             //var blogPost = _context.BlogPosts.First(x => x.Id == id);
 
             var model = new CreateCommentVM
@@ -53,9 +40,9 @@ namespace BlogSite.Areas.User.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateCommentVM model)
+        public async Task<IActionResult> Create(CreateCommentVM model, int id)
         {
-            var blogPost = await _blogRepository.GetByIdTracking(model.BlogPostId);
+            var blogPost = await _blog.GetByIdTracking(id);
             var post = new Comments
             {
                 Comment = model.Comment,
@@ -64,7 +51,7 @@ namespace BlogSite.Areas.User.Controllers
                 BlogPost = blogPost,
             };
             _postRepository.Add(post);
-            return RedirectToAction("Index", "Post", post.Id);
+            return RedirectToAction("Create", "Comment", post.Id);
         }
     }
 }

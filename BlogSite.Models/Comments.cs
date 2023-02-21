@@ -8,7 +8,7 @@ namespace BlogSite.Models
         [Key]
         public int Id { get; set; }
 
-        public virtual BlogPost BlogPost { get; set; }
+        public virtual BlogPost? BlogPost { get; set; }
 
         public string CommenterEmail { get; set; }
 
