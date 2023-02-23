@@ -11,11 +11,11 @@
                 <img src="https://media.istockphoto.com/id/483731108/photo/technology-and-coffee-on-a-wooden-table.jpg?b=1&s=170667a&w=0&k=20&c=_CO1HjY597xwNn7SASXmYE92TMKHcSGC-A-ORKY0uOE=" alt="" />
             </div>
         </div>
-        <h1 class="text-center fw-bold m-5">Blog Posts</h1>
+        <h1 class="text-center fw-bold m-5">Recent Blog Posts</h1>
         <hr  class="container"/>
         <br />
         <div class="blog container">
-                @foreach (var item in Model.Reverse().Take(10))
+                @foreach (var item in Model.Reverse().Take(5))
                 {
                     <a asp-controller="Comment" asp-action="Create" asp-route-id="@item.Id" class="homeLink container">
                         <div class="blogPosts container">
@@ -33,15 +33,12 @@
                                     <p class=""><b>@item.Comments.Count()</b> comments</p>
                                 </div>
                             </div>
-
-
                             <div class="homeArrow">
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </a>
                 }
-
         </div>
         <br /><br />
 </div>

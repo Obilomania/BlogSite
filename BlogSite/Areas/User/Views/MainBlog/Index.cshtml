@@ -1,0 +1,29 @@
+﻿@model IEnumerable<BlogPost>
+
+@{
+    ViewData["Title"] = "Blog Posts Page";
+}
+<br /><br /><br />
+<div class="mainBlogPost container">
+    <div class="mainHeading">
+        <h1 class="text-center text-success">Welcome to The Main Blog</h1>
+        <p class="text-center fw-bold">Scroll, Read, Comment and Enjoy!!!</p>
+    </div>
+    <hr /> <br />
+    <div class="postSection">
+        @foreach(var post in Model.Reverse())
+        {
+            <a asp-controller="Comment" asp-action="Create" asp-route-id="@post.Id" class="homeLink container">
+                <div class="postCard">
+                    <img src="" alt="" />
+                    <h3>This is a post</h3>
+                    <p id="blogPostDesc">@post.Content.Substring(0, Math.Min(post.Content.Length, 100)) <span class="readMore">Read More....</span></p>
+                    <div class="postComments">
+                        <p>Posted On : @post.Date.ToString("dd-MM-yyyy")</p>
+                        <p class=""><b>@post.Comments.Count()</b> comments</p>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>
