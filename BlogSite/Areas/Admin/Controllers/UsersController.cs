@@ -2,6 +2,7 @@
 using BlogSite.Models;
 using BlogSite.Models.ViewModel.Claims;
 using BlogSite.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,7 +11,7 @@ using System.Security.Claims;
 
 namespace Quest_Management.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class UsersController : Controller
     {

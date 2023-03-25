@@ -130,7 +130,7 @@ namespace BlogSite.Areas.Identity.Pages.Account
 
                     if (Input.Role == null)
                     {
-                        await _userManager.AddToRoleAsync(user, SD.Role_Admin);
+                        await _userManager.AddToRoleAsync(user, SD.Role_User);
                     }
                     else
                     {

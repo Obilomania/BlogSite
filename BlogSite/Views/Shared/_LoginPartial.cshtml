@@ -12,7 +12,7 @@
         <a id="manage" class="nav-link text-white" style="margin-top:.1rem;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Welcome <span class="text-danger">@((await UserManager.GetUserAsync(User)).NickName)</span>!</a>
     </li>
 
-        if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+        if (User.IsInRole("Admin"))
         {
             <li class="nav-item">
                 <a class="nav-link text-white" asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a>
@@ -20,12 +20,9 @@
             <li class="nav-item">
                 <a class="nav-link text-white" asp-area="Admin" asp-controller="Roles" asp-action="Index">Roles</a>
             </li>
-        }
-        if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Staff"))
-        {
-           @* <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Rooms" asp-action="Index">Rooms</a>
-            </li>*@
+            <li class="nav-item">
+                <a class="nav-link text-white" asp-area="Admin" asp-controller="BlogPost" asp-action="Index">Posts</a>
+            </li>
         }
 
     <li class="nav-item">

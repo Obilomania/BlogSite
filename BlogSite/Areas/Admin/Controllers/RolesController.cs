@@ -1,13 +1,14 @@
 ﻿using BlogSite.DataAccess;
 using BlogSite.Models;
 using BlogSite.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
 namespace BlogSite.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class RolesController : Controller
     {
