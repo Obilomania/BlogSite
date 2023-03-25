@@ -1,4 +1,7 @@
 ﻿@using BlogSite.Models.ViewModel.Comment;
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> SignInManager
+
 
 @model CreateCommentVM
 <br /><br /><br />
@@ -23,11 +26,14 @@
             }
         </div>
         <hr />
-        <form asp-action="Create" method="post">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <form asp-action="Create" method="post">
             <input asp-for="BlogPostId" type="hidden"/>
+            <input asp-for="Commenter" type="hidden"/>@*
             <div class="form-group">
-                <input asp-for="CommenterEmail" class="form-control" placeholder="Email Address"/>
-            </div>
+                <input asp-for="Commenter" class="form-control" placeholder="Email Address"/>
+            </div>*@
             <br />
             <div class="form-group">
                 <div class="textArea">
@@ -35,7 +41,12 @@
                     <button type="submit" id="submitPostBtn" class="btn btn-success">Add Comment</button>
                 </div>
             </div>
-        </form>
+            </form>
+        }
+        else
+        {
+            <a id="login" asp-area="Identity" asp-page="/Account/Login" class="btn btn-info">Log in to add a comment</a>
+        }
     </div>
     <div class="commentSection">
         <div class="noComment">
@@ -52,7 +63,10 @@
                 {
                     <div class="theComment">
                         <p>@comment.Comment</p>
-                            <p class="time"><b><i>commented on</i> </b>: @comment.Date</p>
+                        <div class="commenters">
+                            <p class="time"> @comment.Date</p> <br />
+                            <p class="time"> @comment.Commenter</p>
+                        </div>
                     </div>
                 }
             </div>

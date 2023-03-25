@@ -1,5 +1,4 @@
-﻿using BlogSite.DataAccess;
-using BlogSite.DataAccess.Repository.IRepository;
+﻿using BlogSite.DataAccess.Repository.IRepository;
 using BlogSite.Models;
 using Microsoft.EntityFrameworkCore;
 
